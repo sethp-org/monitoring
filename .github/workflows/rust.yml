@@ -1,0 +1,31 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cargo build --release --verbose
+    - name: Run tests
+      run: cargo test --release --verbose
+    - name: Upload backend
+      uses: actions/upload-artifact@v3.1.2
+      with:
+           name: backend
+           path: target/release/backend
+    - name: Upload parser
+      uses: actions/upload-artifact@v3.1.2
+      with:
+           name: parser
+           path: target/release/parser
